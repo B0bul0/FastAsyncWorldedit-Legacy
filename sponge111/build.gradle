@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         jcenter()
-        maven {url "https://jitpack.io"}
+        maven { url = "https://jitpack.io" }
         maven {
             name = "forge"
             url = "https://files.minecraftforge.net/maven"
@@ -10,8 +10,8 @@ buildscript {
             name = 'minecrell'
             url = 'https://repo.minecrell.net/releases'
         }
-        maven {url = "https://oss.sonatype.org/content/repositories/snapshots/"}
-        maven {url = "https://repo.minecrell.net/snapshots"}
+        maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url = "https://repo.minecrell.net/snapshots" }
         maven { url = "https://files.minecraftforge.net/maven" }
         maven { url = "https://repo.minecrell.net/releases" }
         maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
@@ -35,7 +35,8 @@ targetCompatibility = 1.8
 clean { delete "../target" }
 
 repositories {
-    flatDir {dirs 'lib'}
+    flatDir { dirs 'lib' }
+    maven { url = "https://jitpack.io" }
     maven {
         name = 'forge'
         url = 'https://files.minecraftforge.net/maven'
