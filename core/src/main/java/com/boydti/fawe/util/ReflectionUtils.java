@@ -124,16 +124,32 @@ public class ReflectionUtils {
         // let's make the field accessible
         field.setAccessible(true);
 
-        // next we change the modifier in the Field instance to
-        // not be final anymore, thus tricking reflection into
-        // letting us modify the static final field
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-        modifiersField.setAccessible(true);
-        int modifiers = modifiersField.getInt(field);
+        try {
+            // Java 12-
 
-        // blank out the final bit in the modifiers int
-        modifiers &= ~Modifier.FINAL;
-        modifiersField.setInt(field, modifiers);
+            // next we change the modifier in the Field instance to
+            // not be final anymore, thus tricking reflection into
+            // letting us modify the static final field
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            int modifiers = modifiersField.getInt(field);
+
+            // blank out the final bit in the modifiers int
+            modifiers &= ~Modifier.FINAL;
+            modifiersField.setInt(field, modifiers);
+        } catch (NoSuchFieldException exception) {
+            // Java 13+
+
+            MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(Field.class, MethodHandles.lookup());
+            VarHandle modifiersField = lookup.findVarHandle(Field.class, "modifiers", int.class);
+
+            int modifiers = field.getModifiers();
+
+            if (Modifier.isFinal(modifiers)) {
+                modifiers &= ~Modifier.FINAL;
+                modifiersField.set(field, modifiers);
+            }
+        }
 
         try {
             FieldAccessor fa = ReflectionFactory.getReflectionFactory().newFieldAccessor(field, false);

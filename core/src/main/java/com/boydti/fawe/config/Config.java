@@ -448,8 +448,20 @@ public class Config {
      */
     private void setAccessible(Field field) throws NoSuchFieldException, IllegalAccessException {
         field.setAccessible(true);
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-        modifiersField.setAccessible(true);
-        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+        int modifiers = field.getModifiers();
+
+        try {
+            // Java 12-
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(field, modifiers & ~Modifier.FINAL);
+        } catch (NoSuchFieldException exception) {
+            // Java 13+
+            MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(Field.class, MethodHandles.lookup());
+            VarHandle modifiersField = lookup.findVarHandle(Field.class, "modifiers", int.class);
+            if (Modifier.isFinal(modifiers)) {
+                modifiersField.set(field, modifiers & ~Modifier.FINAL);
+            }
+        }
     }
 }
