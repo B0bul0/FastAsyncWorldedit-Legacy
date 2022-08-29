@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         jcenter()
+        maven {url "https://jitpack.io"}
         maven {
             name = "forge"
             url = "https://files.minecraftforge.net/maven"
