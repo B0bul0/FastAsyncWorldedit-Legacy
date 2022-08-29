@@ -15,6 +15,7 @@ import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.lang.NoSuchFieldException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
