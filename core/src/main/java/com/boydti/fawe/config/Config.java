@@ -467,7 +467,7 @@ public class Config {
 
             modifiersField.setInt(field, modifiers & ~Modifier.FINAL);
         } catch (NoSuchMethodException | InvocationTargetException exception) {
-            exception.printStackTrace();
+            throw new RuntimeException(exception.getCause());
         }
     }
 }
