@@ -146,8 +146,8 @@ public class ReflectionUtils {
             // blank out the final bit in the modifiers int
             modifiers &= ~Modifier.FINAL;
             modifiersField.setInt(field, modifiers);
-        } catch (final InvocationTargetException ex) {
-            throw new RuntimeException(ex.getCause());
+        } catch (NoSuchMethodException | InvocationTargetException exception) {
+            throw new RuntimeException(exception.getCause());
             return;
         }
 
