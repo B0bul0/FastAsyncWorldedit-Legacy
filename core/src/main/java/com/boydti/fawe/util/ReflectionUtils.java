@@ -129,22 +129,27 @@ public class ReflectionUtils {
         // not be final anymore, thus tricking reflection into
         // letting us modify the static final field
 
-        Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
-        getDeclaredFields0.setAccessible(true);
-        Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
-        Field modifiersField = null;
-        for (Field each : fields) {
-            if ("modifiers".equals(each.getName())) {
-                modifiersField = each;
-                break;
+        try {
+            Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
+            getDeclaredFields0.setAccessible(true);
+            Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
+            Field modifiersField = null;
+            for (Field each : fields) {
+                if ("modifiers".equals(each.getName())) {
+                    modifiersField = each;
+                    break;
+                }
             }
+
+            int modifiers = modifiersField.getInt(field);
+
+            // blank out the final bit in the modifiers int
+            modifiers &= ~Modifier.FINAL;
+            modifiersField.setInt(field, modifiers);
+        } catch (final InvocationTargetException ex) {
+            throw new RuntimeException(ex.getCause());
+            return;
         }
-
-        int modifiers = modifiersField.getInt(field);
-
-        // blank out the final bit in the modifiers int
-        modifiers &= ~Modifier.FINAL;
-        modifiersField.setInt(field, modifiers);
 
         try {
             FieldAccessor fa = ReflectionFactory.getReflectionFactory().newFieldAccessor(field, false);
