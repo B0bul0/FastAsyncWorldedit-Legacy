@@ -21,7 +21,6 @@ package com.sk89q.worldedit.extension.platform;
 
 import com.boydti.fawe.Fawe;
 import com.boydti.fawe.command.AnvilCommands;
-import com.boydti.fawe.command.CFICommand;
 import com.boydti.fawe.command.MaskBinding;
 import com.boydti.fawe.command.PatternBinding;
 import com.boydti.fawe.config.BBC;
@@ -146,11 +145,6 @@ public final class CommandManager {
         this.methodMap = new ConcurrentHashMap<>();
         this.commandMap = new ConcurrentHashMap<>();
 
-        try {
-            Class.forName("com.intellectualcrafters.plot.PS");
-            CFICommand cfi = new CFICommand(worldEdit, builder);
-            registerCommands(cfi);
-        } catch (ClassNotFoundException e) {}
     }
 
     /**

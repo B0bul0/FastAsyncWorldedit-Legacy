@@ -754,14 +754,6 @@ PatternCommands:
     - '#randomoffset'
     usage: <dx> <dy> <dz> <patron/id>
     desc: Bloques aleatoriamente dispersos
-CFICommand:
-  cfi:
-    help: ''
-    aliases:
-    - cfi
-    - createfromimage
-    usage: ''
-    desc: Inicio CreateFromImage
 AnvilCommands:
   remapall:
     help: Remap el mundo entre valores de MCPE / PC
