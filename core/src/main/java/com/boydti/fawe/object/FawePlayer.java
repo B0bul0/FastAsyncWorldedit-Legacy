@@ -2,7 +2,6 @@ package com.boydti.fawe.object;
 
 import com.boydti.fawe.Fawe;
 import com.boydti.fawe.FaweAPI;
-import com.boydti.fawe.command.CFICommands;
 import com.boydti.fawe.config.BBC;
 import com.boydti.fawe.config.Settings;
 import com.boydti.fawe.object.brush.visualization.VirtualWorld;
@@ -410,12 +409,7 @@ public abstract class FawePlayer<T> extends Metadatable {
     }
 
     public FaweQueue getFaweQueue(boolean fast, boolean autoQueue) {
-        CFICommands.CFISettings settings = this.getMeta("CFISettings");
-        if (settings != null && settings.hasGenerator()) {
-            return settings.getGenerator();
-        } else {
-            return SetQueue.IMP.getNewQueue(getWorld(), true, autoQueue);
-        }
+       return SetQueue.IMP.getNewQueue(getWorld(), true, autoQueue);
     }
 
     public FaweQueue getMaskedFaweQueue(boolean autoQueue) {

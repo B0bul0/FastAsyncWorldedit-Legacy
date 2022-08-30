@@ -268,26 +268,6 @@ public class AnvilCommands {
     }
 
     @Command(
-            aliases = {"trimallplots", },
-            desc = "Trim chunks in a Plot World",
-            help = "Trim chunks in a Plot World\n" +
-                    "Unclaimed chunks will be deleted\n" +
-                    "Unmodified chunks will be deleted\n" +
-                    "Use -v to also delete unvisited chunks\n"
-    )
-    @CommandPermissions("worldedit.anvil.trimallplots")
-    public void trimAllPlots(Player player, @Switch('v') boolean deleteUnvisited) throws WorldEditException {
-        String folder = Fawe.imp().getWorldName(player.getWorld());
-        int visitTime = deleteUnvisited ? 1 : -1;
-        PlotTrimFilter filter = new PlotTrimFilter(player.getWorld(), 0, visitTime, 600000);
-//        PlotTrimFilter result = runWithWorld(player, folder, filter, true);
-        FaweQueue defaultQueue = SetQueue.IMP.getNewQueue(folder, true, false);
-        MCAQueue queue = new MCAQueue(defaultQueue);
-        PlotTrimFilter result = queue.filterWorld(filter);
-        if (result != null) player.print(BBC.getPrefix() + BBC.VISITOR_BLOCK.format(result.getTotal()));
-    }
-
-    @Command(
             aliases = {"deletebiomechunks", },
             desc = "Delete chunks matching a specific biome"
     )

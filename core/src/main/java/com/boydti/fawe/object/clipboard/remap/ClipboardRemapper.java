@@ -1,11 +1,11 @@
 package com.boydti.fawe.object.clipboard.remap;
 
 import com.boydti.fawe.FaweCache;
+import com.boydti.fawe.util.MathMan;
 import com.google.common.io.Resources;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.intellectualcrafters.plot.util.MathMan;
 import com.sk89q.jnbt.CompoundTag;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.WorldEditException;
