@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.NoSuchFieldException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -452,17 +453,21 @@ public class Config {
         field.setAccessible(true);
         int modifiers = field.getModifiers();
 
-        Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
-        getDeclaredFields0.setAccessible(true);
-        Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
-        Field modifiersField = null;
-        for (Field each : fields) {
-            if ("modifiers".equals(each.getName())) {
-                modifiersField = each;
-                break;
+        try {
+            Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
+            getDeclaredFields0.setAccessible(true);
+            Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
+            Field modifiersField = null;
+            for (Field each : fields) {
+                if ("modifiers".equals(each.getName())) {
+                    modifiersField = each;
+                    break;
+                }
             }
-        }
 
-        modifiersField.setInt(field, modifiers & ~Modifier.FINAL);
+            modifiersField.setInt(field, modifiers & ~Modifier.FINAL);
+        } catch (NoSuchMethodException | InvocationTargetException exception) {
+            exception.printStackTrace();
+        }
     }
 }
