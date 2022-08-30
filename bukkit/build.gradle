@@ -89,7 +89,7 @@ shadowJar {
     }
     archiveName = "${parent.name}-${project.name}-${parent.version}.jar"
     println "Archive Name: ${archiveName}"
-    destinationDir = file '/target'
+    destinationDir = file '../target'
     println "Destination Dir: ${destinationDir}"
     relocate('com.google.gson', 'com.sk89q.worldedit.internal.gson')
     relocate('it.unimi.dsi.fastutil', 'com.sk89q.worldedit.internal.fastutil')

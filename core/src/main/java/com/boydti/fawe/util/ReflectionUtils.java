@@ -141,6 +141,7 @@ public class ReflectionUtils {
                 }
             }
 
+            modifiersField.setAccessible(true);
             int modifiers = modifiersField.getInt(field);
 
             // blank out the final bit in the modifiers int
