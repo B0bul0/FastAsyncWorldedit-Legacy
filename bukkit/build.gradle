@@ -13,7 +13,7 @@ dependencies {
     compile 'org.bukkit.craftbukkit:Craftbukkit_1_9:1.9.4'
     compile 'org.bukkit.craftbukkit:Craftbukkit_1_8:1.8.8'
     compile 'org.bukkit.craftbukkit:Craftbukkit_1_7:1.7.10'
-    compile 'net.milkbowl.vault:VaultAPI:1.5.6'
+    compile 'com.github.MilkBowl:VaultAPI:1.7'
     compile 'com.massivecraft:factions:2.8.0'
     compile 'com.factionsone:FactionsOne:1.2.2'
     compile 'me.ryanhamshire:GriefPrevention:11.5.2'
