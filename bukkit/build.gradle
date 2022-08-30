@@ -92,6 +92,7 @@ shadowJar {
     destinationDir = file '/target'
     println "Destination Dir: ${destinationDir}"
     relocate('com.google.gson', 'com.sk89q.worldedit.internal.gson')
+    relocate('it.unimi.dsi.fastutil', 'com.sk89q.worldedit.internal.fastutil')
 }
 shadowJar.doLast {
     task ->
