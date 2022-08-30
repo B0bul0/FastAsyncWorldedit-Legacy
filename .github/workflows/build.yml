@@ -50,8 +50,8 @@ jobs:
       - name: Archive Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: FastAsyncWorldEdit-Bukkit-SNAPSHOT
-          path: bukkit/build/libs/FastAsyncWorldEdit-Bukkit-*.jar
+          name: FastAsyncWorldEdit-bukkit-SNAPSHOT
+          path: bukkit/target/FastAsyncWorldEdit-bukkit-*.jar
       - name: Cleanup Gradle Cache
         # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
         # Restoring these files from a GitHub Actions cache might cause problems for future builds.

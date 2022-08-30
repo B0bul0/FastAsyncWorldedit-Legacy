@@ -88,7 +88,9 @@ shadowJar {
         include(dependency(':core'))
     }
     archiveName = "${parent.name}-${project.name}-${parent.version}.jar"
-    destinationDir = file '../target'
+    println "Archive Name: ${archiveName}"
+    destinationDir = file '/target'
+    println "Destination Dir: ${destinationDir}"
     relocate('com.google.gson', 'com.sk89q.worldedit.internal.gson')
 }
 shadowJar.doLast {
