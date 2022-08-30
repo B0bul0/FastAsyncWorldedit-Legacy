@@ -1,7 +1,6 @@
 package com.boydti.fawe.bukkit.listener;
 
 import com.boydti.fawe.bukkit.util.image.BukkitImageViewer;
-import com.boydti.fawe.command.CFICommands;
 import com.boydti.fawe.jnbt.anvil.HeightMapMCAGenerator;
 import com.boydti.fawe.object.FawePlayer;
 import com.boydti.fawe.object.brush.BrushSettings;
@@ -55,30 +54,30 @@ public class BukkitImageListener implements Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onPlayerInteractEntity(AsyncPlayerChatEvent event) {
-        Set<Player> recipients = event.getRecipients();
-        Iterator<Player> iter = recipients.iterator();
-        while (iter.hasNext()) {
-            Player player = iter.next();
-            if (player.equals(event.getPlayer())) continue;
-
-            FawePlayer<Object> fp = FawePlayer.wrap(player);
-            if (!fp.hasMeta()) continue;
-
-            CFICommands.CFISettings settings = fp.getMeta("CFISettings");
-            if (settings == null || !settings.hasGenerator()) continue;
-
-            String name = player.getName().toLowerCase();
-            if (!event.getMessage().toLowerCase().contains(name)) {
-                ArrayDeque<String> buffered = fp.getMeta("CFIBufferedMessages");
-                if (buffered == null) fp.setMeta("CFIBufferedMessaged", buffered = new ArrayDeque<String>());
-                String full = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
-                buffered.add(full);
-                iter.remove();
-            }
-        }
-    }
+//    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+//    public void onPlayerInteractEntity(AsyncPlayerChatEvent event) {
+//        Set<Player> recipients = event.getRecipients();
+//        Iterator<Player> iter = recipients.iterator();
+//        while (iter.hasNext()) {
+//            Player player = iter.next();
+//            if (player.equals(event.getPlayer())) continue;
+//
+//            FawePlayer<Object> fp = FawePlayer.wrap(player);
+//            if (!fp.hasMeta()) continue;
+//
+//            if (settings == null || !settings.hasGenerator())
+//                continue;
+//
+//            String name = player.getName().toLowerCase();
+//            if (!event.getMessage().toLowerCase().contains(name)) {
+//                ArrayDeque<String> buffered = fp.getMeta("CFIBufferedMessages");
+//                if (buffered == null) fp.setMeta("CFIBufferedMessaged", buffered = new ArrayDeque<String>());
+//                String full = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
+//                buffered.add(full);
+//                iter.remove();
+//            }
+//        }
+//    }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onHangingBreakByEntity(HangingBreakByEntityEvent event) {
@@ -166,8 +165,7 @@ public class BukkitImageListener implements Listener {
         ItemFrame itemFrame = (ItemFrame) entity;
 
         FawePlayer<Object> fp = FawePlayer.wrap(player);
-        CFICommands.CFISettings settings = fp.getMeta("CFISettings");
-        HeightMapMCAGenerator generator = settings == null ? null : settings.getGenerator();
+        HeightMapMCAGenerator generator = null;
         BukkitImageViewer viewer = get(generator);
         if (viewer == null) return;
 

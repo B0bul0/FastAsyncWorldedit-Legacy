@@ -5,7 +5,6 @@ import com.boydti.fawe.IFawe;
 import com.boydti.fawe.bukkit.chat.BukkitChatManager;
 import com.boydti.fawe.bukkit.listener.BrushListener;
 import com.boydti.fawe.bukkit.listener.BukkitImageListener;
-import com.boydti.fawe.bukkit.listener.CFIPacketListener;
 import com.boydti.fawe.bukkit.listener.RenderListener;
 import com.boydti.fawe.bukkit.regions.*;
 import com.boydti.fawe.bukkit.util.BukkitReflectionUtils;
@@ -72,7 +71,6 @@ public class FaweBukkit implements IFawe, Listener {
 
     private boolean listeningImages;
     private BukkitImageListener imageListener;
-    private CFIPacketListener packetListener;
 
     private boolean listeningCui;
     private CUIListener cuiListener;
@@ -172,9 +170,6 @@ public class FaweBukkit implements IFawe, Listener {
     @Override
     public void registerPacketListener() {
         PluginManager manager = Bukkit.getPluginManager();
-        if (packetListener == null && manager.getPlugin("ProtocolLib") != null) {
-            packetListener = new CFIPacketListener(plugin);
-        }
     }
 
     @Override
@@ -529,15 +524,6 @@ public class FaweBukkit implements IFawe, Listener {
             try {
                 managers.add(new ResidenceFeature(residencePlugin, this));
                 Fawe.debug("Plugin 'Residence' found. Using it now.");
-            } catch (final Throwable e) {
-                MainUtil.handleError(e);
-            }
-        }
-        final Plugin griefpreventionPlugin = Bukkit.getServer().getPluginManager().getPlugin("GriefPrevention");
-        if ((griefpreventionPlugin != null) && griefpreventionPlugin.isEnabled()) {
-            try {
-                managers.add(new GriefPreventionFeature(griefpreventionPlugin, this));
-                Fawe.debug("Plugin 'GriefPrevention' found. Using it now.");
             } catch (final Throwable e) {
                 MainUtil.handleError(e);
             }
