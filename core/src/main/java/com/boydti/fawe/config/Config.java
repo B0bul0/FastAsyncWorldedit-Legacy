@@ -15,6 +15,7 @@ import java.lang.invoke.VarHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.NoSuchFieldException;
 import java.util.Arrays;
@@ -452,18 +453,17 @@ public class Config {
         field.setAccessible(true);
         int modifiers = field.getModifiers();
 
-        try {
-            // Java 12-
-            Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(field, modifiers & ~Modifier.FINAL);
-        } catch (NoSuchFieldException exception) {
-            // Java 13+
-            MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(Field.class, MethodHandles.lookup());
-            VarHandle modifiersField = lookup.findVarHandle(Field.class, "modifiers", int.class);
-            if (Modifier.isFinal(modifiers)) {
-                modifiersField.set(field, modifiers & ~Modifier.FINAL);
+        Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
+        getDeclaredFields0.setAccessible(true);
+        Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
+        Field modifiersField = null;
+        for (Field each : fields) {
+            if ("modifiers".equals(each.getName())) {
+                modifiersField = each;
+                break;
             }
         }
+
+        modifiersField.setInt(field, modifiers & ~Modifier.FINAL);
     }
 }

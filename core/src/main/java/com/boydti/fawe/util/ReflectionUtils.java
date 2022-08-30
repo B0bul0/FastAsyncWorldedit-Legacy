@@ -127,32 +127,26 @@ public class ReflectionUtils {
         // let's make the field accessible
         field.setAccessible(true);
 
-        try {
-            // Java 12-
+        // next we change the modifier in the Field instance to
+        // not be final anymore, thus tricking reflection into
+        // letting us modify the static final field
 
-            // next we change the modifier in the Field instance to
-            // not be final anymore, thus tricking reflection into
-            // letting us modify the static final field
-            Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            int modifiers = modifiersField.getInt(field);
-
-            // blank out the final bit in the modifiers int
-            modifiers &= ~Modifier.FINAL;
-            modifiersField.setInt(field, modifiers);
-        } catch (NoSuchFieldException exception) {
-            // Java 13+
-
-            MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(Field.class, MethodHandles.lookup());
-            VarHandle modifiersField = lookup.findVarHandle(Field.class, "modifiers", int.class);
-
-            int modifiers = field.getModifiers();
-
-            if (Modifier.isFinal(modifiers)) {
-                modifiers &= ~Modifier.FINAL;
-                modifiersField.set(field, modifiers);
+        Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
+        getDeclaredFields0.setAccessible(true);
+        Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
+        Field modifiersField = null;
+        for (Field each : fields) {
+            if ("modifiers".equals(each.getName())) {
+                modifiersField = each;
+                break;
             }
         }
+
+        int modifiers = modifiersField.getInt(field);
+
+        // blank out the final bit in the modifiers int
+        modifiers &= ~Modifier.FINAL;
+        modifiersField.setInt(field, modifiers);
 
         try {
             FieldAccessor fa = ReflectionFactory.getReflectionFactory().newFieldAccessor(field, false);
