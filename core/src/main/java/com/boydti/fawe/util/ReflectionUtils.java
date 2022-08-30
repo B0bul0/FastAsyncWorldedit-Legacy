@@ -148,7 +148,6 @@ public class ReflectionUtils {
             modifiersField.setInt(field, modifiers);
         } catch (NoSuchMethodException | InvocationTargetException exception) {
             throw new RuntimeException(exception.getCause());
-            return;
         }
 
         try {
