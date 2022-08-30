@@ -3,11 +3,16 @@ buildscript {
         jcenter()
         maven { url = "https://jitpack.io" }
         maven {
+            name = "forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+        maven {
             name = 'minecrell'
             url = 'https://repo.minecrell.net/releases'
         }
         maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url = "https://repo.minecrell.net/snapshots" }
+        maven { url = "https://files.minecraftforge.net/maven" }
         maven { url = "https://repo.minecrell.net/releases" }
         maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
@@ -32,6 +37,10 @@ clean { delete "../target" }
 repositories {
     flatDir { dirs 'lib' }
     maven { url = "https://jitpack.io" }
+    maven {
+        name = 'forge'
+        url = 'https://files.minecraftforge.net/maven'
+    }
     maven {
         name = "Sponge"
         url = "https://repo.spongepowered.org/maven"
